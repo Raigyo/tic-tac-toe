@@ -5,8 +5,8 @@ import './index.css';
 class Square extends React.Component {
   render() {
     return (
-      <button className="square">
-        {/* TODO */}
+      <button className="square" onClick={function() { alert('click'); }}> // Interactive Component
+        {this.props.value} // shows value from parent
       </button>
     );
   }
@@ -14,7 +14,7 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   renderSquare(i) {
-    return <Square />;
+    return <Square value={i} />; //pass a prop called value to the children (Square)
   }
 
   render() {
