@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
+  constructor(props) { //add a constructor to the class to initialize the state
+    super(props); //All React component classes that have a constructor should start it with a super(props) call.
+    this.state = {
+      value: null,
+    };
+  }
+
   render() {
     return (
-      <button className="square" onClick={function() { alert('click'); }}> // Interactive Component
+      <button className="square" onClick={() => alert('click')}> // function with Interactive Component
         {this.props.value} // shows value from parent
       </button>
     );
