@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+
 class Square extends React.Component {
-  constructor(props) { //add a constructor to the class to initialize the state
-    super(props); //All React component classes that have a constructor should start it with a super(props) call.
+  constructor(props) {
+    //add a constructor to the class to initialize the state
+    super(props);
+    //All React component classes that have a constructor should start it with a super(props) call.
     this.state = {
       value: null,
     };
@@ -12,8 +15,12 @@ class Square extends React.Component {
 
   render() {
     return (
-      <button className="square" onClick={() => alert('click')}> // function with Interactive Component
-        {this.props.value} // shows value from parent
+      <button
+        className="square"
+        onClick={() => this.setState({value: 'X'})}
+      >
+        {this.state.value}
+        // shows value from parent
       </button>
     );
   }
@@ -21,7 +28,8 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   renderSquare(i) {
-    return <Square value={i} />; //pass a prop called value to the children (Square)
+    return <Square value={i} />;
+    //pass a prop called value to the Square
   }
 
   render() {
