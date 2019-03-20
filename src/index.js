@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
-class Square extends React.Component {
+/*class Square extends React.Component {
   constructor(props) {
     //add a constructor to the class to initialize the state
     super(props);
@@ -17,19 +17,58 @@ class Square extends React.Component {
     return (
       <button
         className="square"
-        onClick={() => this.setState({value: 'X'})}
+        onClick={() => this.props.onClick()}
       >
-        {this.state.value}
-        // shows value from parent
+        {this.props.value}
       </button>
     );
   }
+}*/
+
+// function components are a simpler way to write components that only contain
+// a render method and don’t have their own state.
+// Instead of defining a class which extends React.Component,
+// we can write a function that takes props as input and returns what should be rendered.
+// Function components are less tedious to write than classes, and many components
+// can be expressed this way.
+
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 }
 
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+      //Add a constructor to the Board and set the Board’s initial state to contain an array of 9 nulls corresponding to the 9 squares
+      xIsNext: true,
+      //boolean that will be flipped to determine which player goes next 
+    };
+  }
+
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares: squares});
+    //the Square components are now controlled components. The Board has full control over them
+    //.slice() creates a copy of the squares array to modify instead of modifying the existing array
+  }
+
   renderSquare(i) {
-    return <Square value={i} />;
-    //pass a prop called value to the Square
+    return (
+      <Square
+        //return <Square value={this.state.squares[i]} />;
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+        //pass a prop called value to the Square ('X', 'O', or null)
+        //we’ll pass down a function from the Board to the Square, and we’ll have Square call that function when a square is clicked
+      />
+    );
   }
 
   render() {
