@@ -45,24 +45,33 @@ class Board extends React.Component {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
-      //Add a constructor to the Board and set the Board’s initial state to contain an array of 9 nulls corresponding to the 9 squares
+      //Add a constructor to the Board and set the Board’s initial state
+      //to contain an array of 9 nulls corresponding to the 9 squares
       xIsNext: true,
-      //boolean that will be flipped to determine which player goes next 
+      //boolean that will be flipped to determine which player goes next
     };
   }
 
   handleClick(i) {
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({squares: squares});
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    //ignores a click if someone has won the game or if a Square is already filled
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
     //the Square components are now controlled components. The Board has full control over them
     //.slice() creates a copy of the squares array to modify instead of modifying the existing array
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+      //With this change, “X”s and “O”s can take turns
+    });
   }
 
   renderSquare(i) {
     return (
       <Square
-        //return <Square value={this.state.squares[i]} />;
+      //return <Square value={this.state.squares[i]} />;
         value={this.state.squares[i]}
         onClick={() => this.handleClick(i)}
         //pass a prop called value to the Square ('X', 'O', or null)
@@ -72,7 +81,14 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = 'Next player: X';
+    const winner = calculateWinner(this.state.squares);
+    //default X, displays which player has the next turn
+    let status;
+    if (winner) {
+      status = 'Winner: ' + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
 
     return (
       <div>
@@ -97,6 +113,9 @@ class Board extends React.Component {
   }
 }
 
+
+// this function will check for a winner and return 'X', 'O', or null as appropriate
+
 class Game extends React.Component {
   render() {
     return (
@@ -119,3 +138,23 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
