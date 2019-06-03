@@ -1,6 +1,13 @@
 # Becode  JEPSEN LG - Tutorial: Intro to React :  [tic-tac-toe game](https://reactjs.org/tutorial/tutorial.html#setup-option-2-local-development-environment)
 
-[Github Page](https://raigyo.github.io/tic-tac-toe/)
+![Becode logo](https://raw.githubusercontent.com/Raigyo/react-character-manager/master/img/becode-logo.png)
+
+*March 2019*
+
+> 🔨  Exercise to learn ReactJS. [Github Page](https://raigyo.github.io/tic-tac-toe/)
+
+* * *
+
 
 ## Description
 
